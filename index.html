@@ -15,10 +15,12 @@
             height: 100vh;
             margin: 0;
         }
+
         h1 {
             margin-bottom: 20px;
             color: #00a8ff;
         }
+
         .analyzer-box {
             background: rgba(255, 255, 255, 0.05);
             border: 1px solid rgba(255, 255, 255, 0.2);
@@ -28,6 +30,7 @@
             text-align: center;
             box-shadow: 0 0 10px rgba(0,0,0,0.3);
         }
+
         input {
             padding: 10px;
             width: 90%;
@@ -37,6 +40,7 @@
             margin-top: 10px;
             font-size: 14px;
         }
+
         button {
             padding: 10px 20px;
             margin-top: 15px;
@@ -47,14 +51,23 @@
             cursor: pointer;
             transition: 0.2s;
         }
+
         button:hover {
             background-color: #0097e6;
         }
-        #result {
+
+        #feedbackBox {
             margin-top: 25px;
+            padding: 15px;
+            border-radius: 6px;
+            transition: background-color 0.3s ease;
+        }
+
+        #result {
             font-weight: bold;
             color: #fbc531;
         }
+
         footer {
             position: absolute;
             bottom: 20px;
@@ -71,7 +84,9 @@
         <input type="text" id="userInput" placeholder="e.g., shared password with coworker">
         <button onclick="runAnalysis()">Analyze</button>
 
-        <p id="result"></p>
+        <div id="feedbackBox">
+            <p id="result"></p>
+        </div>
     </div>
 
     <footer>© 2025 Cognitive Security | Human Factor Risk Analyzer</footer>
