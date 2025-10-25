@@ -1,4 +1,4 @@
-// Cognitive Security Analyzer - Enhanced Version
+// Cognitive Security Analyzer - Advanced Risk Logic
 
 console.log("Cognitive Security Analyzer is running.");
 
@@ -8,25 +8,44 @@ function analyzeUserBehavior(userInput) {
         return { message: "Please enter a behavior description.", risk: "none" };
     }
 
-    const text = userInput.toLowerCase();
+    const text = userInput.toLowerCase().trim();
 
-    const riskyKeywords = ["unknown link", "password", "phish", "click", "share", "email", "urgent", "download"];
-    const cautiousKeywords = ["verified", "checked", "secure", "safe", "trusted"];
+    // Keyword lists
+    const highRiskKeywords = [
+        "shared password", "clicked", "unknown link", "phish", "downloaded", "email attachment", "gave", "leaked", "opened suspicious"
+    ];
+    const mediumRiskKeywords = [
+        "password", "login", "email", "urgent", "request", "link"
+    ];
+    const safeKeywords = [
+        "verified", "checked", "secure", "safe", "trusted", "complex password", "strong password", "2fa", "two factor"
+    ];
 
     let score = 0;
-    riskyKeywords.forEach(word => {
-        if (text.includes(word)) score += 2;
-    });
-    cautiousKeywords.forEach(word => {
-        if (text.includes(word)) score -= 1;
+
+    // Weighting logic
+    highRiskKeywords.forEach(word => {
+        if (text.includes(word)) score += 4;
     });
 
-    if (score >= 4) {
-        return { message: "⚠️ High Risk: Behavior suggests low cybersecurity awareness.", risk: "high" };
-    } else if (score >= 2) {
-        return { message: "⚠️ Moderate Risk: Behavior shows some risky tendencies.", risk: "medium" };
+    mediumRiskKeywords.forEach(word => {
+        if (text.includes(word)) score += 2;
+    });
+
+    safeKeywords.forEach(word => {
+        if (text.includes(word)) score -= 3;
+    });
+
+    // Clamp score range for consistency
+    if (score < 0) score = 0;
+
+    // Determine risk category
+    if (score >= 6) {
+        return { message: "🔴 High Risk: Behavior indicates a critical human factor vulnerability.", risk: "high" };
+    } else if (score >= 3) {
+        return { message: "🟡 Moderate Risk: Behavior shows potential awareness gaps.", risk: "medium" };
     } else {
-        return { message: "✅ Low Risk: Behavior indicates good cybersecurity awareness.", risk: "low" };
+        return { message: "🟢 Low Risk: Behavior reflects strong cybersecurity awareness.", risk: "low" };
     }
 }
 
@@ -45,11 +64,13 @@ function runAnalysis() {
 
     if (analysis.risk === "high") {
         feedbackBox.style.backgroundColor = "#e84118"; // red
+        result.style.color = "#fff";
     } else if (analysis.risk === "medium") {
         feedbackBox.style.backgroundColor = "#fbc531"; // yellow
         result.style.color = "#000";
     } else if (analysis.risk === "low") {
         feedbackBox.style.backgroundColor = "#4cd137"; // green
+        result.style.color = "#fff";
     } else {
         result.style.color = "#fff";
     }
