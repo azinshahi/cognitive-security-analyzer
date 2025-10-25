@@ -1,45 +1,56 @@
-// Cognitive Security Analyzer - main.js
+// Cognitive Security Analyzer - Enhanced Version
 
 console.log("Cognitive Security Analyzer is running.");
 
 // Analyze text input for psychological risk indicators
 function analyzeUserBehavior(userInput) {
     if (!userInput) {
-        return "Please enter a behavior description.";
+        return { message: "Please enter a behavior description.", risk: "none" };
     }
 
-    // Convert text to lowercase for easier matching
     const text = userInput.toLowerCase();
 
-    // Simple keyword-based analysis (simulated AI logic)
     const riskyKeywords = ["unknown link", "password", "phish", "click", "share", "email", "urgent", "download"];
     const cautiousKeywords = ["verified", "checked", "secure", "safe", "trusted"];
 
     let score = 0;
-
-    // Add points for risky behavior
     riskyKeywords.forEach(word => {
         if (text.includes(word)) score += 2;
     });
-
-    // Subtract points for safe behavior
     cautiousKeywords.forEach(word => {
         if (text.includes(word)) score -= 1;
     });
 
-    // Simple feedback based on score
     if (score >= 4) {
-        return "⚠️ High Risk: Behavior suggests low cybersecurity awareness.";
+        return { message: "⚠️ High Risk: Behavior suggests low cybersecurity awareness.", risk: "high" };
     } else if (score >= 2) {
-        return "⚠️ Moderate Risk: Behavior shows some risky tendencies.";
+        return { message: "⚠️ Moderate Risk: Behavior shows some risky tendencies.", risk: "medium" };
     } else {
-        return "✅ Low Risk: Behavior indicates good cybersecurity awareness.";
+        return { message: "✅ Low Risk: Behavior indicates good cybersecurity awareness.", risk: "low" };
     }
 }
 
-// Run the analysis when the button is clicked
+// Update the UI with color-coded feedback
 function runAnalysis() {
     const input = document.getElementById("userInput").value;
-    const result = analyzeUserBehavior(input);
-    document.getElementById("result").innerText = result;
+    const analysis = analyzeUserBehavior(input);
+
+    const result = document.getElementById("result");
+    const feedbackBox = document.getElementById("feedbackBox");
+
+    result.innerText = analysis.message;
+
+    // Reset colors
+    feedbackBox.style.backgroundColor = "transparent";
+
+    if (analysis.risk === "high") {
+        feedbackBox.style.backgroundColor = "#e84118"; // red
+    } else if (analysis.risk === "medium") {
+        feedbackBox.style.backgroundColor = "#fbc531"; // yellow
+        result.style.color = "#000";
+    } else if (analysis.risk === "low") {
+        feedbackBox.style.backgroundColor = "#4cd137"; // green
+    } else {
+        result.style.color = "#fff";
+    }
 }
