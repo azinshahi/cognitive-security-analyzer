@@ -1,47 +1,72 @@
-// Cognitive Security Analyzer - Advanced Risk Logic
-
+// Cognitive Security Analyzer - Full Updated Version
 console.log("Cognitive Security Analyzer is running.");
 
 // Analyze text input for psychological risk indicators
 function analyzeUserBehavior(userInput) {
-    if (!userInput) {
+    if (!userInput || userInput.trim() === "") {
         return { message: "Please enter a behavior description.", risk: "none" };
     }
 
-    const text = userInput.toLowerCase().trim();
+    const text = userInput.toLowerCase();
 
-    // Keyword lists
+    // Define keyword categories
     const highRiskKeywords = [
-        "shared password", "clicked", "unknown link", "phish", "downloaded", "email attachment", "gave", "leaked", "opened suspicious"
-    ];
-    const mediumRiskKeywords = [
-        "password", "login", "email", "urgent", "request", "link"
-    ];
-    const safeKeywords = [
-        "verified", "checked", "secure", "safe", "trusted", "complex password", "strong password", "2fa", "two factor"
+        "shared password",
+        "clicked unknown link",
+        "opened attachment",
+        "gave password",
+        "leaked",
+        "phish",
+        "downloaded malware",
+        "suspicious link"
     ];
 
+    const mediumRiskKeywords = [
+        "password",
+        "login",
+        "email",
+        "link",
+        "request",
+        "urgent",
+        "clicked"
+    ];
+
+    const safeKeywords = [
+        "verified",
+        "checked",
+        "secure",
+        "trusted",
+        "complex password",
+        "strong password",
+        "2fa",
+        "two factor",
+        "encrypted"
+    ];
+
+    // Initialize score
     let score = 0;
 
-    // Weighting logic
+    // Add weights for high risk
     highRiskKeywords.forEach(word => {
-        if (text.includes(word)) score += 4;
+        if (text.includes(word)) score += 5;
     });
 
+    // Add weights for medium risk
     mediumRiskKeywords.forEach(word => {
         if (text.includes(word)) score += 2;
     });
 
+    // Subtract weights for safe behavior
     safeKeywords.forEach(word => {
         if (text.includes(word)) score -= 3;
     });
 
-    // Clamp score range for consistency
+    // Clamp score to zero
     if (score < 0) score = 0;
 
-    // Determine risk category
+    // Determine risk level
     if (score >= 6) {
-        return { message: "🔴 High Risk: Behavior indicates a critical human factor vulnerability.", risk: "high" };
+        return { message: "🔴 High Risk: Behavior indicates critical human-factor vulnerability.", risk: "high" };
     } else if (score >= 3) {
         return { message: "🟡 Moderate Risk: Behavior shows potential awareness gaps.", risk: "medium" };
     } else {
@@ -49,7 +74,7 @@ function analyzeUserBehavior(userInput) {
     }
 }
 
-// Update the UI with color-coded feedback
+// Run the analysis and update the UI
 function runAnalysis() {
     const input = document.getElementById("userInput").value;
     const analysis = analyzeUserBehavior(input);
