@@ -5,47 +5,76 @@
     <title>Cognitive Security Analyzer</title>
     <style>
         body {
-            font-family: Arial, sans-serif;
-            background: #f5f6fa;
-            text-align: center;
-            padding-top: 60px;
+            font-family: "Segoe UI", Arial, sans-serif;
+            background: linear-gradient(135deg, #1e272e, #2f3640);
+            color: #f5f6fa;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            justify-content: center;
+            height: 100vh;
+            margin: 0;
         }
         h1 {
-            color: #2f3640;
+            margin-bottom: 20px;
+            color: #00a8ff;
+        }
+        .analyzer-box {
+            background: rgba(255, 255, 255, 0.05);
+            border: 1px solid rgba(255, 255, 255, 0.2);
+            border-radius: 10px;
+            padding: 40px;
+            width: 380px;
+            text-align: center;
+            box-shadow: 0 0 10px rgba(0,0,0,0.3);
         }
         input {
-            padding: 8px;
-            width: 300px;
-            border: 1px solid #ccc;
-            border-radius: 4px;
+            padding: 10px;
+            width: 90%;
+            border: none;
+            border-radius: 6px;
+            outline: none;
+            margin-top: 10px;
+            font-size: 14px;
         }
         button {
-            padding: 8px 16px;
-            margin-left: 6px;
-            background-color: #273c75;
+            padding: 10px 20px;
+            margin-top: 15px;
+            background-color: #00a8ff;
             color: white;
             border: none;
-            border-radius: 4px;
+            border-radius: 6px;
             cursor: pointer;
+            transition: 0.2s;
         }
         button:hover {
-            background-color: #40739e;
+            background-color: #0097e6;
         }
         #result {
             margin-top: 25px;
             font-weight: bold;
-            color: #192a56;
+            color: #fbc531;
+        }
+        footer {
+            position: absolute;
+            bottom: 20px;
+            font-size: 12px;
+            color: #718093;
         }
     </style>
 </head>
 <body>
-    <h1>Cognitive Security Analyzer</h1>
-    <p>Enter a description of a user's behavior:</p>
-    
-    <input type="text" id="userInput" placeholder="e.g., clicked on unknown link">
-    <button onclick="runAnalysis()">Analyze</button>
+    <div class="analyzer-box">
+        <h1>Cognitive Security Analyzer</h1>
+        <p>Describe a user's action below:</p>
 
-    <p id="result"></p>
+        <input type="text" id="userInput" placeholder="e.g., shared password with coworker">
+        <button onclick="runAnalysis()">Analyze</button>
+
+        <p id="result"></p>
+    </div>
+
+    <footer>© 2025 Cognitive Security | Human Factor Risk Analyzer</footer>
 
     <script src="scripts/main.js"></script>
 </body>
